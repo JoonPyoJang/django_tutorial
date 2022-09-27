@@ -38,7 +38,7 @@ def sign_in_view(request):
         me = UserModel.objects.get(username=username)
 
         if password == me.password:
-            return render(request,'mainpage.html')
+            return render(request,'mainpage.html',{'username':username})
         else:
             return redirect('/sign-in')
         
