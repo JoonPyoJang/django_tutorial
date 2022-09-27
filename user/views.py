@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from .models import UserModel
+
 
 # Create your views here.
 def sign_up_view(request):
@@ -12,16 +14,21 @@ def sign_up_view(request):
         password2 = request.POST.get('password2',None)
         bio = request.POST.get('bio',None)
 
+
+
         if password != password2:
             return redirect('/sign-up')
         else:
-            new_user = UserModel()
-            new_user.username = username
-            new_user.password = password
-            new_user.bio = bio
-            new_user.save()
-
-        return redirect('/sign-in')
+            exist_user = UserModel.objects.filter(username=username)
+            if exist_user:
+                return HttpResponse("아이디가 존재합니다!!")
+            else:
+                new_user = UserModel()
+                new_user.username = username
+                new_user.password = password
+                new_user.bio = bio
+                new_user.save()
+                return redirect('/sign-in')
 
 def sign_in_view(request):
     if request.method == 'POST':
