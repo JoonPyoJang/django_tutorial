@@ -24,6 +24,16 @@ def sign_up_view(request):
         return redirect('/sign-in')
 
 def sign_in_view(request):
-    
+    if request.method == 'POST':
+        username = request.POST.get('username',None)
+        password = request.POST.get('password',None)
+        
+        me = UserModel.objects.get(username=username)
 
-    return render(request,'user/signin.html')
+        if password == me.password:
+            return render(request,'mainpage.html')
+        else:
+            return redirect('/sign-in')
+        
+    elif request.method == 'GET':
+        return render(request,'user/signin.html')
