@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/',views.index),
     path('dinner/<str:name>/',views.dinner),
-    path('',include('user.urls'))
+    path('',include('user.urls')),
+    path('',include('tweet.urls')),
 ]
